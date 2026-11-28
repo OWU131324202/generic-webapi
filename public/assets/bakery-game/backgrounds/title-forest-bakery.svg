@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="540" viewBox="0 0 960 540" shape-rendering="crispEdges">
+<defs>
+ <linearGradient id="sky" x2="0" y2="1"><stop stop-color="#294453"/><stop offset=".55" stop-color="#71836f"/><stop offset="1" stop-color="#e3b77a"/></linearGradient>
+ <linearGradient id="wood" x2="0" y2="1"><stop stop-color="#a86d43"/><stop offset=".22" stop-color="#d39a5d"/><stop offset=".55" stop-color="#bc7c4c"/><stop offset="1" stop-color="#825239"/></linearGradient>
+ <linearGradient id="glass" x2="0" y2="1"><stop stop-color="#8fb7b0"/><stop offset=".62" stop-color="#bfd0a4"/><stop offset="1" stop-color="#537358"/></linearGradient>
+ <linearGradient id="glow" x2="0" y2="1"><stop stop-color="#ffe7a0" stop-opacity=".88"/><stop offset="1" stop-color="#e79543" stop-opacity=".08"/></linearGradient>
+ <pattern id="planks" width="112" height="42" patternUnits="userSpaceOnUse"><rect width="112" height="42" fill="#a9754c"/><path d="M0 2H112M0 39H112M54 2V20M12 22H112M14 22V39" stroke="#6e4934" stroke-width="3"/><path d="M6 10H41M68 31H101M75 9H94" stroke="#dfa66b" stroke-width="2" opacity=".72"/><path d="M4 16H19M89 15H108M27 31H47" stroke="#83553a" stroke-width="2"/></pattern>
+ <pattern id="wallgrain" width="180" height="76" patternUnits="userSpaceOnUse"><rect width="180" height="76" fill="#d9bd91"/><path d="M0 3H180M0 73H180M84 3V38M20 40H180M20 40V73" stroke="#ae895f" stroke-width="3" opacity=".65"/><path d="M9 18H55M113 59H165M103 14H141" stroke="#f1d8ac" stroke-width="2"/><path d="M65 26h13m29 12h23m-112 19h21" stroke="#b38e65" stroke-width="2"/></pattern>
+</defs>
+<rect width="960" height="540" fill="url(#sky)"/>
+<path d="M0 222L68 149l58 48 70-104 69 92 74-83 82 103 73-82 81 92 74-120 72 95 72-61 67 75v184H0Z" fill="#263d38"/>
+<path d="M0 282l97-72 82 50 79-57 93 70 92-80 102 76 84-49 101 64 91-68 139 83v130H0Z" fill="#36543f"/>
+<path d="M0 334q140-74 270-15t261 3q134-80 429 8v210H0Z" fill="#526b48"/>
+<g fill="#d6a668" opacity=".65"><rect x="82" y="98" width="5" height="5"/><rect x="198" y="132" width="4" height="4"/><rect x="780" y="102" width="5" height="5"/><rect x="867" y="158" width="4" height="4"/><rect x="695" y="74" width="4" height="4"/></g>
+<path d="M0 422q135-40 276-3t270 0q197-64 414 9v112H0Z" fill="#756044"/><path d="M0 450q162-32 333 7t339-2q157-31 288 4v81H0Z" fill="#526342"/>
+<g fill="#283c31" stroke="#192d28" stroke-width="5"><path d="M28 313h30v137H28zM13 310l31-68 34 68zM0 337l43-78 42 78z"/><path d="M890 302h28v153h-28zM864 302l40-84 43 84zM875 338l43-73 42 73z"/><path d="M119 358h22v91h-22zM101 359l28-56 29 56z"/></g>
+<path d="M146 292L221 245l31 18 32-35 42 28 46-55 38 25 47-44 72 38 63-18 38 26 59-14 63 49 61-14 62 34v159H146Z" fill="#493b31" stroke="#352f2a" stroke-width="8"/>
+<path d="M124 286l93-67 72 15 46-46 68 23 56-48 88 36 64-10 46 32 68-2 83 57-16 22-82-48-69 2-48-31-61 10-78-32-51 44-60-20-44 42-70-13-87 63Z" fill="#8a5940" stroke="#543b31" stroke-width="8"/>
+<path d="M152 292h611v158H152z" fill="#d3a66b" stroke="#563d2e" stroke-width="8"/>
+<path d="M179 312h211v108H179z" fill="#5a4836" stroke="#63442e" stroke-width="12"/><path d="M191 323h187v90H191z" fill="url(#glow)"/>
+<path d="M199 394q25-52 50-25t37-12q32-45 64 18v38H199Z" fill="#638064"/><path d="M211 386l27-31 20 28 26-39 36 48z" fill="#45664e"/><path d="M197 337h177v10H197zM276 323v89h9v-89" fill="#815439"/>
+<path d="M418 316h97v54h-97z" fill="#594332" stroke="#714c32" stroke-width="7"/><path d="M427 325h79v36h-79z" fill="#f0cf8c"/><path d="M441 325v36m25-36v36m25-36v36" stroke="#9b6943" stroke-width="5"/>
+<path d="M538 316h190v105H538z" fill="#76503a" stroke="#523a2c" stroke-width="7"/><path d="M548 327h170v80H548z" fill="#e0b77d"/><path d="M560 338h146v5H560zm0 18h146v5H560zm0 18h146v5H560z" fill="#9b6d47"/><path d="M570 327v80m55-80v80m53-80v80" stroke="#bd8c5b" stroke-width="4"/>
+<path d="M152 449h611v17H152z" fill="#603f2e"/><path d="M180 468h555v72H180z" fill="#734b35" stroke="#4c362a" stroke-width="7"/>
+<path d="M208 482h78v42h-78zm96 0h77v42h-77zm96 0h78v42h-78zm97 0h77v42h-77zm96 0h78v42h-78z" fill="#a36c43" stroke="#51392b" stroke-width="6"/>
+<path d="M231 505h28m69 0h28m68 0h28m69 0h28m70 0h28m68 0h28" stroke="#d5a269" stroke-width="4"/>
+<path d="M76 463q81-18 133 3l-16 16H80z" fill="#b99766"/><path d="M99 471l20 2m18-5 20 2" stroke="#e0c38a" stroke-width="4"/>
+<g fill="#d67a5d"><rect x="110" y="410" width="9" height="9"/><rect x="128" y="398" width="8" height="8"/><rect x="819" y="411" width="9" height="9"/></g><g fill="#e6c86e"><rect x="143" y="420" width="7" height="7"/><rect x="838" y="398" width="8" height="8"/></g>
+<path d="M0 524h960v16H0z" fill="#27362d" opacity=".7"/>
+</svg>

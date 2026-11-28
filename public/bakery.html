@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#fff5e4">
+  <title>こむぎ日和 森のちいさなパン屋さん</title>
+  <link rel="stylesheet" href="/bakery.css">
+  <script src="/bakery.js" defer></script>
+</head>
+<body>
+  <main class="app">
+    <header class="topbar">
+      <div class="header-main">
+        <a class="brand" href="/bakery.html"><span class="brand-mark" aria-hidden="true">✿</span><span>こむぎ日和</span><small>森のちいさなパン屋さん</small></a>
+        <button id="helpButton" class="help-button" type="button" aria-haspopup="dialog" aria-controls="helpDialog">？ 遊び方</button>
+      </div>
+      <div id="summary" class="summary" hidden aria-live="polite"></div>
+    </header>
+
+    <section id="startScreen" class="start-card">
+      <img class="title-art" src="/assets/bakery-game/backgrounds/title-forest-bakery.svg" alt="森の中にある小さなパン屋さん">
+      <p class="eyebrow">KOMUGI BIYORI</p>
+      <h1>森のちいさなパン屋さん</h1>
+      <p>「新しく始める」は空のお店から、「続きから」は自動保存した内容から再開します。</p>
+      <div class="actions">
+        <button id="newGame" class="primary">新しく始める</button>
+        <button id="continueGame">続きから</button>
+      </div>
+      <p id="saveNotice" class="muted" aria-live="polite"></p>
+    </section>
+
+    <section id="gameScreen" hidden>
+      <nav id="mainTabs" class="tabs" aria-label="ゲームメニュー">
+        <button data-tab="shop">お店</button>
+        <button data-tab="develop">パン開発</button>
+        <button data-tab="prepare">開店準備</button>
+        <button data-tab="results">営業結果</button>
+        <button data-tab="encyclopedia">パン図鑑</button>
+      </nav>
+      <div id="notice" class="notice" role="status" hidden></div>
+      <div id="panel" class="panel"></div>
+    </section>
+  </main>
+  <dialog id="restartDialog" class="restart-dialog" aria-labelledby="restartTitle">
+    <form method="dialog">
+      <h2 id="restartTitle">新しいお店を始めますか？</h2>
+      <p id="restartMessage">現在のゲームを保管して、商品0種類・図鑑0種類の1日目から始めます。</p>
+      <div class="actions">
+        <button value="cancel">戻る</button>
+        <button id="confirmRestart" class="primary" value="confirm">保管して始める</button>
+      </div>
+    </form>
+  </dialog>
+  <dialog id="helpDialog" class="help-dialog" aria-labelledby="helpTitle">
+    <div class="help-dialog-head">
+      <div>
+        <p class="eyebrow">KOMUGI BIYORI</p>
+        <h2 id="helpTitle">🌿 森のパン屋さんの遊び方</h2>
+      </div>
+      <form method="dialog"><button class="icon-button" type="submit" aria-label="遊び方を閉じる">×</button></form>
+    </div>
+    <div class="help-dialog-content">
+      <ol class="help-steps">
+        <li><span aria-hidden="true">📣</span><div><strong>今日の予定を確認</strong><p>「お店」で売上目標を確認。イベントと人気の特徴は「パン開発」「開店準備」で見られます。</p></div></li>
+        <li><span aria-hidden="true">💡</span><div><strong>パンのアイデアを入力</strong><p>作りたいパンを入力してAIで開発します。おまかせで作ることもできます。</p></div></li>
+        <li><span aria-hidden="true">📖</span><div><strong>商品として登録</strong><p>できあがった商品案を確認して、お店の商品に登録します。</p></div></li>
+        <li><span aria-hidden="true">🥐</span><div><strong>製造数と販売価格を決める</strong><p>「開店準備」でパンを焼き、価格を調整します。製造は2個ずつです。</p></div></li>
+        <li><span aria-hidden="true">🐿️</span><div><strong>お店を開く</strong><p>営業を始めて、森の動物たちの来店やお買い物を見守ります。</p></div></li>
+        <li><span aria-hidden="true">🎉</span><div><strong>目標達成で翌日へ</strong><p>売上目標を達成したら、営業結果の「翌日へ進む」を押します。</p></div></li>
+        <li><span aria-hidden="true">🌱</span><div><strong>届かなかった日は再挑戦</strong><p>目標未達成でゲーム終了です。記録を保管して、1日目から再挑戦できます。</p></div></li>
+      </ol>
+      <section class="help-tip"><strong>🍞 売上のヒント</strong><p>イベントの人気特徴、パンの特徴とお客様の好み、販売価格が購入されやすさや売上に影響します。価格はお客様の予算にも関わります。</p></section>
+    </div>
+  </dialog>
+</body>
+</html>

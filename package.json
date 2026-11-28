@@ -2,6 +2,9 @@
   "name": "generic-webapi",
   "version": "1.0.0",
   "description": "Generic Web API for LLM integration",
+  "engines": {
+    "node": ">=18"
+  },
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

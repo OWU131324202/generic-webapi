@@ -1,254 +1,51 @@
-# Generic Web API for LLM Integration
+# こむぎ日和 森のちいさなパン屋さん
 
-A flexible Node.js web API that allows you to create LLM-powered applications by simply editing a Markdown prompt file. No code changes required for different use cases.
+パンを開発・製造してお店を開き、森の動物たちを迎えるブラウザーゲームです。AIはオリジナルパンと営業日のセリフ・イベント文を作ります。購入判定や売上、在庫、体力、イベント効果などのルールはJavaScriptで処理します。
 
-## Features
+## 起動
 
-- 🎯 **Generic Design**: One API endpoint for any LLM application
-- 📝 **Markdown Prompts**: Define your application logic in `prompt.md`
-- 🔄 **Variable Substitution**: Automatic replacement of `${variable}` placeholders
-- 🤖 **Multi-Provider**: Supports OpenAI and Google Gemini
-- ⚡ **No Code Changes**: Switch between applications by editing `prompt.md`
+既存の generic-webapi を利用します。OpenAI APIキーはサーバー側の `OPENAI_API_KEY` 環境変数に設定してください。キーや `.env.local` をブラウザーやGitHubに置かないでください。
 
-## Quick Start
+1. `npm install`
+2. `npm start`
+3. `http://localhost:8080/bakery.html` を開く
 
-### 1. Installation
+`server.js` と既存依存関係を使うため、RenderではNode.jsの通常の起動コマンド `npm start` と環境変数 `OPENAI_API_KEY` を設定します。モデルやAPIキー設定は変更しません。
 
-```bash
-npm install
-```
+## 1日の流れ
 
-### 2. Environment Setup
+1. お店で朝イベントと営業状況を確認する
+2. ひとつの自由記述欄からオリジナルパンを開発し、内容を確認して登録する
+3. 開店準備で製造数と価格を設定する
+4. 開店後は動物のお客様が自動で来店し、JavaScriptの購入判定で販売する
+5. 営業結果で売上、商品別販売数、売れ残り、感想を確認する
+6. 翌日に進む
 
-Copy `.env.example` to `.env.local` and set your API key:
+毎朝の基本体力は5です。体力1で2個製造します。在庫は翌日に持ち越し、購入された場合だけ減ります。新しいゲームは商品もパン図鑑も空の状態で始まります。来店人数は日数や品ぞろえで増え、最大6匹です。
 
-```bash
-cp .env.example .env.local
-```
+## 商品開発と接客
 
-Edit `.env.local`:
-```env
-# For OpenAI (default)
-OPENAI_API_KEY=your_openai_api_key_here
+自由記述したアイデアをもとに、1回のAPI通信で商品案を1種類作ります。「季節のパン」「魔法のパン」「かわいいパン」「珍しいパン」の補助ボタンは入力欄へアイデアを追加します。「おまかせで作る」は入力欄が空でも使えます。商品案を確認して登録すると、以降は商品生成APIを使わずに製造・販売できます。
 
-# For Gemini (if switching)
-GEMINI_API_KEY=your_gemini_api_key_here
+営業は自動進行します。お客さまの好み、要望、パンの食材・特徴タグ、販売価格、イベント効果をJavaScriptで評価して商品を選び、購入判定します。価格の影響は推奨価格との比率で計算し、個別の予算値は設けていません。接客ごとのAPI通信はありません。営業前にその日の来店客とイベント文をまとめて生成し、失敗した場合は定型文に切り替えます。
 
-PORT=8080
-```
+## APIとJSON
 
-> `.env.local` holds your real keys and is git-ignored. Do not commit it.
+クライアントは既存の `POST /api/` を利用します。`prompt.md` でJSON出力を指定し、サーバーがOpenAIの応答を解析した後、クライアントも `JSON.parse()` とキー・型・件数の検証を行います。商品情報は登録後の商品データと購入判定に、営業日のJSONは来店客のセリフやイベント表示に使います。API失敗時も登録済み商品と定型文で営業を続けられます。
 
-### 3. Configure LLM Provider
+## セーブデータ
 
-Edit the `PROVIDER` constant near the top of `server.js`:
+ゲームはlocalStorageの `komugiBiyoriAnimalBakeryV7` に自動保存します。日数、進行状態、売上目標と履歴、体力、在庫、価格、商品、パン図鑑、動物の営業用データ、イベント、営業中の来店客を保存します。パンを商品登録すると図鑑にも記録され、図鑑は営業中やゲームオーバー後にも閲覧できます。
 
-```javascript
-// For OpenAI (default) -> gpt-6-luna
-const PROVIDER = 'openai';
+新しいゲームを始めると、商品とパン図鑑は空になります。以前のセーブデータは別のlocalStorageキーに保管されますが、新しい店へ商品は引き継がれません。
 
-// For Gemini -> gemini-4-hydrogen
-// const PROVIDER = 'gemini';
-```
+既存のV6セーブは読み込み時にV7へ移行します。新しいゲームを始める際は現在のセーブを別のlocalStorageキーに保管します。
 
-The model is selected automatically from the `MODELS` map based on `PROVIDER`.
+## 主なファイル
 
-### 4. Start Server
-
-```bash
-npm start
-```
-
-Visit `http://localhost:8080`
-
-## How It Works
-
-### Architecture
-
-```
-Client (quiz.html) → POST /api/ → server.js → LLM → Response
-                                     ↓
-                              prompt.md (template)
-```
-
-### Variable Substitution
-
-The API automatically replaces variables in `prompt.md` with request data:
-
-**prompt.md:**
-```markdown
-Create ${count} questions about ${topic}.
-Format: JSON array
-```
-
-**Request:**
-```json
-{
-  "count": 5,
-  "topic": "JavaScript"
-}
-```
-
-**Result:** Variables `${count}` and `${topic}` are replaced with actual values.
-
-### API Endpoint
-
-**POST** `/api/`
-
-**Request Body:**
-```json
-{
-  "title": "My Quiz",
-  "count": 5,
-  "any_variable": "value"
-}
-```
-
-**Response:**
-```json
-{
-  "title": "My Quiz",
-  "data": [...]
-}
-```
-
-## Example Applications
-
-### 1. IT Certification Quiz (Included)
-
-**Files:**
-- `prompt.md` - Defines IT quiz generation logic
-- `public/quiz.html` - Quiz interface
-
-**Usage:** Generate IT certification practice questions
-
-### 2. Translation App (Example)
-
-**prompt.md:**
-```markdown
-# Translation Service
-
-Translate the following text to ${target_language}:
-
-"${text}"
-
-Return only the translated text.
-```
-
-**Request:**
-```json
-{
-  "text": "Hello world",
-  "target_language": "Japanese"
-}
-```
-
-### 3. Code Review App (Example)
-
-**prompt.md:**
-```markdown
-# Code Review Assistant
-
-Review this ${language} code and provide feedback:
-
-```${language}
-${code}
-```
-
-Provide:
-1. Issues found
-2. Suggestions for improvement
-3. Best practices
-```
-
-**Request:**
-```json
-{
-  "language": "Python",
-  "code": "def hello():\n    print('world')"
-}
-```
-
-## File Structure
-
-```
-generic-webapi/
-├── server.js          # Generic API server (no changes needed)
-├── prompt.md          # Application-specific prompt template
-├── package.json       # Dependencies
-├── .env.example       # Environment variables template
-├── public/            # Static files
-│   ├── quiz.html     # IT quiz application
-│   ├── style.css     # Styles
-│   └── quiz.css      # Quiz-specific styles
-└── README.md         # This file
-```
-
-## Creating New Applications
-
-1. **Edit `prompt.md`** - Define your application logic and variables
-2. **Create client HTML** - Build your user interface in `public/`
-3. **Send requests** - Use any variables you defined in `prompt.md`
-
-No server code changes required!
-
-## Environment Variables
-
-| Variable | Description | Required |
-|----------|-------------|----------|
-| `GEMINI_API_KEY` | Google Gemini API key | Yes (if using Gemini) |
-| `OPENAI_API_KEY` | OpenAI API key | Yes (if using OpenAI) |
-| `PORT` | Server port | No (default: 8080) |
-
-## LLM Provider Configuration
-
-### Switch to OpenAI (default)
-
-1. Edit `server.js`:
-```javascript
-const PROVIDER = 'openai';
-```
-
-2. Set OpenAI API key in `.env.local`:
-```env
-OPENAI_API_KEY=your_key_here
-```
-
-### Switch to Gemini
-
-1. Edit `server.js`:
-```javascript
-const PROVIDER = 'gemini';
-```
-
-2. Set Gemini API key in `.env.local`:
-```env
-GEMINI_API_KEY=your_key_here
-```
-
-## Development
-
-### Run with auto-restart:
-```bash
-npm run dev
-```
-
-### Supported Models
-
-**OpenAI:**
-- `gpt-6-luna` (default)
-
-**Gemini:**
-- `gemini-4-hydrogen` (called with `thinkingLevel: "LOW"`; thinking tokens count toward `maxOutputTokens`)
-
-## License
-
-MIT
-
-## Contributing
-
-1. Fork the repository
-2. Create your feature branch
-3. Commit your changes
-4. Push to the branch
-5. Create a Pull Request
+- `server.js` — 既存generic-webapi。変更していません。
+- `prompt.md` — 商品開発・営業日のJSON形式。
+- `public/bakery.html` — ゲームの入口。
+- `public/bakery.css` — 5画面の配色、レイアウト、レスポンシブ表示。
+- `public/bakery.js` — ゲーム状態、ルール、API連携、自動保存。
+- `public/assets/bakery-game/` — 店内背景やパンの既存SVG素材。
